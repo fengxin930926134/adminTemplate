@@ -26,7 +26,7 @@ public class Permission extends BaseEntity {
     /**
      * 描述
      */
-    private String describe;
+    private String remarks;
 
     /**
      * 状态

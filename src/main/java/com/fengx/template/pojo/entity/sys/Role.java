@@ -24,5 +24,5 @@ public class Role extends BaseEntity {
     /**
      * 角色描述
      */
-    private String describe;
+    private String remarks;
 }

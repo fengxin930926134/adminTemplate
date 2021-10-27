@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * 自定义身份认证验证组件
@@ -17,6 +18,7 @@ import org.springframework.security.core.AuthenticationException;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private final PublicService publicService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -25,7 +27,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
         // 认证逻辑
-        User user = publicService.authentication(name, password);
+        User user = publicService.authentication(name, passwordEncoder.encode(password));
         // 生成令牌
         return new UsernamePasswordAuthenticationToken(name, password, user.getAuthorities());
     }

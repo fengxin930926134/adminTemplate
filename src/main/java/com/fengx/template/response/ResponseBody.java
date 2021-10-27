@@ -7,7 +7,6 @@ import lombok.Data;
 
 @ApiModel(value = "响应数据主体")
 @Data
-// 返回字段为空 则隐藏
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseBody<T> {
 

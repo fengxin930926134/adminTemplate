@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,13 +24,12 @@ import java.util.concurrent.TimeUnit;
 public class PublicServiceImpl implements PublicService {
 
     private final UserDAO userDAO;
-    private final PasswordEncoder passwordEncoder;
     private final UserRoleDAO userRoleDAO;
     private final RedisUtils redisUtils;
 
     @Override
     public User authentication(String username, String password) {
-        User user = userDAO.findFirstByUsernameAndPassword(username, passwordEncoder.encode(password));
+        User user = userDAO.findFirstByUsernameAndPassword(username, password);
         if (user != null) {
             // 获取权限
             user.setAuthorities(getAuthorities(user.getId()));

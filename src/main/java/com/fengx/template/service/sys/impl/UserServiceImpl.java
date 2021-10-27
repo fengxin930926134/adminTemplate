@@ -5,7 +5,7 @@ import com.fengx.template.exception.WarnException;
 import com.fengx.template.pojo.entity.sys.User;
 import com.fengx.template.pojo.param.sys.LoginParam;
 import com.fengx.template.pojo.param.sys.PwdParam;
-import com.fengx.template.pojo.vo.LoginVo;
+import com.fengx.template.pojo.vo.sys.LoginVO;
 import com.fengx.template.response.Response;
 import com.fengx.template.service.sys.UserService;
 import com.fengx.template.utils.JSONUtils;
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
         if (object != null) {
             User user = JSONUtils.json2Object(object, User.class);
             String token = TokenUtils.createToken(user.getUsername());
-            LoginVo copy = ObjectUtils.copy(user, new LoginVo());
+            LoginVO copy = ObjectUtils.copy(user, new LoginVO());
             copy.setToken(token);
             return Response.success(copy);
         }

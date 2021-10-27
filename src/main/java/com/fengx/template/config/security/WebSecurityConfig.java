@@ -23,10 +23,12 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
+/**
+ * EnableGlobalMethodSecurity 开启方法级别验证 在prePostEnabled方法之前
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-//开启方法级别验证 prePostEnabled方法之前
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -39,25 +41,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // 关闭csrf验证
         http.csrf().disable()
-            .authorizeRequests()
-            // 自定义url过滤 鉴权
-            .withObjectPostProcessor(new CustomObjectPostProcessor())
-            .anyRequest().authenticated()  // 任何请求,登录后可以访问
-            // 扩展access()的SpEL表达式实现URL动态权限 .anyRequest().access("@authService.canAccess(request, authentication)")
-            // 不创建不使用session
-            .and()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            // 添加一个过滤器验证Token是否合法，是否需要登录
-            .addFilterBefore(new LoginFilter(redisUtils, handlerExceptionResolver), UsernamePasswordAuthenticationFilter.class);
+                .authorizeRequests()
+                // 自定义url过滤 鉴权
+                .withObjectPostProcessor(new CustomObjectPostProcessor())
+                .anyRequest().authenticated()  // 任何请求,登录后可以访问
+                // 扩展access()的SpEL表达式实现URL动态权限 .anyRequest().access("@authService.canAccess(request, authentication)")
+                // 不创建不使用session
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                // 添加一个过滤器验证Token是否合法，是否需要登录
+                .addFilterBefore(new LoginFilter(redisUtils, handlerExceptionResolver), UsernamePasswordAuthenticationFilter.class);
     }
 
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
         // 自定义身份认证验证组件
-        auth.authenticationProvider(new CustomAuthenticationProvider(publicService));
+        auth.authenticationProvider(new CustomAuthenticationProvider(publicService, passwordEncoder()));
     }
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)

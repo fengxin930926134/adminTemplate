@@ -1,6 +1,7 @@
 package com.fengx.template.config.security;
 
 import java.util.Collection;
+
 import com.fengx.template.exception.PermissionException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -15,7 +16,7 @@ import org.springframework.security.core.GrantedAuthority;
  * 鉴权
  */
 @RequiredArgsConstructor
-public class CustomAccessDecisionManager implements AccessDecisionManager{
+public class CustomAccessDecisionManager implements AccessDecisionManager {
 
     /**
      * 方法是判定是否拥有权限的决策方法，
@@ -28,7 +29,7 @@ public class CustomAccessDecisionManager implements AccessDecisionManager{
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes)
             throws AccessDeniedException, InsufficientAuthenticationException {
 
-        if(configAttributes == null  || configAttributes.size() == 0) {
+        if (configAttributes == null || configAttributes.size() == 0) {
             throw new PermissionException();
         }
 
@@ -48,7 +49,6 @@ public class CustomAccessDecisionManager implements AccessDecisionManager{
 
         throw new PermissionException();
     }
-
 
 
     @Override
