@@ -1,7 +1,7 @@
 package com.fengx.template.filter;
 
 import com.fengx.template.exception.TokenException;
-import com.fengx.template.pojo.entity.SysUser;
+import com.fengx.template.pojo.entity.sys.User;
 import com.fengx.template.utils.JSONUtils;
 import com.fengx.template.utils.RedisUtils;
 import com.fengx.template.utils.RequestHolder;
@@ -23,9 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 登录过滤器
- *
- * 所有不在过滤列表的url都需要登录
- * 访问url可以单独加权限 也可以不加权限 默认只需要登录即可访问
  */
 @RequiredArgsConstructor
 public class LoginFilter extends GenericFilterBean {
@@ -51,12 +48,12 @@ public class LoginFilter extends GenericFilterBean {
                 if (username == null) {
                     throw new TokenException();
                 }
-                // 过期
+                // 判断过期
                 String user = redisUtils.get(username);
                 if (user == null) {
                     throw new TokenException();
                 }
-                SysUser sysUser = JSONUtils.json2Object(user, SysUser.class);
+                User sysUser = JSONUtils.json2Object(user, User.class);
                 // 得到权限（角色）
                 Authentication auth = new UsernamePasswordAuthenticationToken(sysUser.getUsername(), sysUser.getPassword(), sysUser.getAuthorities());
                 // 这里还是上面见过的，存放认证信息，如果没有走这一步，下面的doFilter就会提示登录了

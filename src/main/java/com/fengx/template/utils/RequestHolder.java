@@ -1,6 +1,6 @@
 package com.fengx.template.utils;
 
-import com.fengx.template.pojo.entity.SysUser;
+import com.fengx.template.pojo.entity.sys.User;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class RequestHolder {
 
-    private static final ThreadLocal<SysUser> USER_HOLDER = new ThreadLocal<>();
+    private static final ThreadLocal<User> USER_HOLDER = new ThreadLocal<>();
 
     private static final ThreadLocal<HttpServletRequest> REQUEST_HOLDER = new ThreadLocal<>();
 
-    public static void add(SysUser sysUser) {
-        USER_HOLDER.set(sysUser);
+    public static void add(User user) {
+        USER_HOLDER.set(user);
     }
 
     public static void add(HttpServletRequest request) {
@@ -24,7 +24,7 @@ public class RequestHolder {
     /**
      * 获取当前用户不含密码
      */
-    public static SysUser currentUser() {
+    public static User currentUser() {
         return USER_HOLDER.get();
     }
 

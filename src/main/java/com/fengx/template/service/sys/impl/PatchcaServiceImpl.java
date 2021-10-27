@@ -26,16 +26,20 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class PatchcaServiceImpl implements PatchcaService {
-    // 生成验证码范围
+    /**
+     * 生成验证码范围
+     */
     private static final String DEFAULT_CHARACTERS = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static final int DEFAULT_FONT_SIZE = 35;
     private static final int DEFAULT_WORD_LENGTH = 4;
     private static final int DEFAULT_WIDTH = 100;
     private static final int DEFAULT_HEIGHT = 50;
-    // 默认过期时间5分钟
+    /**
+     * 默认过期时间5分钟
+     */
     private static final Long DEFAULT_EXPIRE = 5 * 60 * 1000L;
 
-    private final @NonNull RedisUtils<String> redisUtils;
+    private final @NonNull RedisUtils redisUtils;
 
     @Override
     public void doPatcha(String appId, HttpServletRequest request, HttpServletResponse response) {

@@ -8,7 +8,13 @@ import lombok.Getter;
 @Getter
 public enum ExcelTypeEnum {
 
+    /**
+     * EXCEL2007以上版本
+     */
     EXCEL_TYPE_XLSX("xlsx","EXCEL2007以上版本"),
+    /**
+     * EXCEL2003版本
+     */
     EXCEL_TYPE_XLS("xls","EXCEL2003版本");
 
     private final String code;

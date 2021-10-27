@@ -1,6 +1,6 @@
 package com.fengx.template.utils.jpa;
 
-import com.fengx.template.pojo.page.PageParam;
+import com.fengx.template.pojo.page.Pager;
 import com.fengx.template.pojo.page.SortMeta;
 import com.google.common.collect.Lists;
 import org.springframework.data.domain.*;
@@ -56,7 +56,7 @@ public class PageUtils {
      * @param pager 分页对象
      * @return org.springframework.data.domain.Sort
      */
-    public static Sort buildSort(PageParam pager) {
+    public static Sort buildSort(Pager pager) {
         if (pager != null) {
             return buildSort(pager.getSorts());
         }
@@ -79,7 +79,7 @@ public class PageUtils {
      * @param pager 分页对象
      * @return org.springframework.data.domain.PageRequest
      */
-    public static PageRequest buildPageRequest(PageParam pager) {
+    public static PageRequest buildPageRequest(Pager pager) {
         // 排序分页
         if (null != pager.getSorts() && pager.getSorts().size() > 0) {
             return buildPageRequest(changePage(pager.getStartPage()), pager.getPageSize(), buildSort(pager));
@@ -96,7 +96,7 @@ public class PageUtils {
      * @param sort  自定义排序对象
      * @return org.springframework.data.domain.PageRequest
      */
-    public static PageRequest buildPageRequest(PageParam pager, Sort sort) {
+    public static PageRequest buildPageRequest(Pager pager, Sort sort) {
         if (!CollectionUtils.isEmpty(pager.getSorts())) {
             return buildPageRequest(pager);
         }

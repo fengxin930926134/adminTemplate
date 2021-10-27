@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.fengx.template.exception.NotLoginException;
-import com.fengx.template.service.sys.SysPermissionService;
+import com.fengx.template.service.sys.PermissionService;
 import com.fengx.template.utils.RequestHolder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @RequiredArgsConstructor
 public class CustomFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
-    private final @NonNull SysPermissionService sysPermissionService;
+    private final @NonNull PermissionService permissionService;
 
     /**
      * 此方法是为了判定用户请求的url 是否在权限表中，如果在权限表中，则返回给 decide 方法。
@@ -37,7 +37,9 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
         HttpServletRequest request = filterInvocation.getHttpRequest();
 
         // 检查是否属于不需要登录的url
-        if (isMatcherAllowedRequest(filterInvocation)) return null;
+        if (isMatcherAllowedRequest(filterInvocation)) {
+            return null;
+        }
 
         // 接下来的操作都需要登录
         if (RequestHolder.currentUser() == null) {
@@ -48,7 +50,7 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
         // 匹配到url需要的权限. 则返回给decide方法进行处理 判断登录用户是否拥有此权限
         String resUrl;
         AntPathRequestMatcher matcher;
-        Map<String, Collection<ConfigAttribute>> map = sysPermissionService.getPermissionMap();
+        Map<String, Collection<ConfigAttribute>> map = permissionService.getPermissionMap();
         for (String s : map.keySet()) {
             resUrl = s;
             matcher = new AntPathRequestMatcher(resUrl);
@@ -78,7 +80,7 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
      * @return 定义允许请求的列表
      */
     private List<String> allowedRequest() {
-        return sysPermissionService.getFilterUrlList();
+        return permissionService.getFilterUrlList();
     }
 
     @Override

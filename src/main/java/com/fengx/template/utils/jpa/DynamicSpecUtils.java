@@ -1,6 +1,6 @@
 package com.fengx.template.utils.jpa;
 
-import com.fengx.template.pojo.page.PageParam;
+import com.fengx.template.pojo.page.Pager;
 import com.fengx.template.pojo.page.WhereOperator;
 import com.fengx.template.pojo.page.SearchFilter;
 import com.fengx.template.utils.common.ObjectUtils;
@@ -216,8 +216,8 @@ public class DynamicSpecUtils {
         return LocalDateTime.parse(s1, DateTimeFormatter.ofPattern(LONG_DATE));
     }
 
-    public static <T> Specification<T> bySearchFilter(PageParam pageParam) {
-        return bySearchFilter(pageParam.getFilters() != null? pageParam.getFilters(): new HashSet<>());
+    public static <T> Specification<T> bySearchFilter(Pager pager) {
+        return bySearchFilter(pager.getFilters() != null? pager.getFilters(): new HashSet<>());
     }
 
     public static <T> Specification<T> bySearchFilter(final Collection<SearchFilter> searchFilters) {

@@ -1,13 +1,10 @@
 package com.fengx.template.config.security;
 
 import com.fengx.template.config.encode.PasswordEncoderConfig;
-import com.fengx.template.dao.SysSourceDao;
-import com.fengx.template.dao.SysUserDao;
 import com.fengx.template.filter.LoginFilter;
-import com.fengx.template.pojo.entity.SysUser;
-import com.fengx.template.service.sys.SysPermissionService;
+import com.fengx.template.service.PublicService;
+import com.fengx.template.service.sys.PermissionService;
 import com.fengx.template.utils.RedisUtils;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,11 +30,10 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final @NonNull SysUserDao sysUserDao;
-    private final @NonNull RedisUtils<SysUser> redisUtils;
-    private final @NonNull HandlerExceptionResolver handlerExceptionResolver;
-    private final @NonNull SysPermissionService sysPermissionService;
-    private final @NonNull SysSourceDao sysSourceDao;
+    private final RedisUtils redisUtils;
+    private final HandlerExceptionResolver handlerExceptionResolver;
+    private final PermissionService permissionService;
+    private final PublicService publicService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -61,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
         // 自定义身份认证验证组件
-        auth.authenticationProvider(new CustomAuthenticationProvider(redisUtils, sysUserDao, passwordEncoder(), sysSourceDao));
+        auth.authenticationProvider(new CustomAuthenticationProvider(publicService));
     }
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
@@ -77,7 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public FilterInvocationSecurityMetadataSource filterInvocationSecurityMetadataSource() {
-        return new CustomFilterInvocationSecurityMetadataSource(sysPermissionService);
+        return new CustomFilterInvocationSecurityMetadataSource(permissionService);
     }
 
     @Bean

@@ -1,8 +1,12 @@
 package com.fengx.template;
 
-import com.fengx.template.dao.*;
-import com.fengx.template.pojo.entity.*;
-import com.fengx.template.pojo.enums.UserTypeEnum;
+import com.fengx.template.dao.sys.RoleDAO;
+import com.fengx.template.dao.sys.SourceDAO;
+import com.fengx.template.dao.sys.UserDAO;
+import com.fengx.template.pojo.entity.sys.Permission;
+import com.fengx.template.pojo.entity.sys.Role;
+import com.fengx.template.pojo.entity.sys.Source;
+import com.fengx.template.pojo.entity.sys.User;
 import com.fengx.template.pojo.page.Operator;
 import com.fengx.template.pojo.page.SearchFilter;
 import com.fengx.template.pojo.page.WhereOperator;
@@ -25,9 +29,9 @@ import java.io.UnsupportedEncodingException;
 class ApplicationTests {
 
     @Autowired
-    private SysUserDao sysUserDao;
+    private UserDAO userDAO;
     @Autowired
-    private SysRoleDAO sysRoleDao;
+    private RoleDAO roleDao;
     @Autowired
     private SysFilterRejectDao sysFilterRejectDao;
     @Autowired
@@ -35,7 +39,7 @@ class ApplicationTests {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private SysSourceDao sysSourceDao;
+    private SourceDAO sourceDAO;
     @Autowired
     private AsyncTask asyncTask;
     @Autowired
@@ -83,43 +87,43 @@ class ApplicationTests {
         sysFilterRejectDao.save(sysFilterReject5);
 
         //初始化角色
-        SysRole sysRole = new SysRole();
-        sysRole.setName("管理员");
-        sysRole.setDesc("管理员");
-        sysRoleDao.save(sysRole);
+        Role role = new Role();
+        role.setName("管理员");
+        role.setDesc("管理员");
+        roleDao.save(role);
 
-        SysRole sysRole2 = new SysRole();
-        sysRole2.setName("USER");
-        sysRole2.setDesc("学生");
-        sysRoleDao.save(sysRole2);
+        Role role2 = new Role();
+        role2.setName("USER");
+        role2.setDesc("学生");
+        roleDao.save(role2);
 
         //初始化权限
-        SysPermission permission1 = new SysPermission();
+        Permission permission1 = new Permission();
         permission1.setUrl("/test/user");
         permission1.setDesc("测试学生权限的url");
-        permission1.setRoles(Lists.newArrayList(sysRole2, sysRole));
+        permission1.setRoles(Lists.newArrayList(role2, role));
         sysPermissionDao.save(permission1);
 
-        SysPermission permission2 = new SysPermission();
+        Permission permission2 = new Permission();
         permission2.setUrl("/test/admin");
         permission2.setDesc("测试管理员权限的url");
-        permission2.setRoles(Lists.newArrayList(sysRole));
+        permission2.setRoles(Lists.newArrayList(role));
         sysPermissionDao.save(permission2);
 
         //初始化用户
-        SysSource source = new SysSource();
+        Source source = new Source();
         source.setFilePath("/img/admin.png");
         source.setFileName("管理员头像");
-        SysSource save = sysSourceDao.save(source);
+        Source save = sourceDAO.save(source);
 
-        SysUser sysUser = new SysUser();
-        sysUser.setName("白璇");
-        sysUser.setUsername("admin");
-        sysUser.setPassword(passwordEncoder.encode("123123"));
-        sysUser.setRoles(Lists.newArrayList(sysRole));
-        sysUser.setPictureId(save.getId());
-        sysUser.setUserType(UserTypeEnum.ADMIN.getCode());
-        sysUserDao.save(sysUser);
+        User user = new User();
+        user.setName("白璇");
+        user.setUsername("admin");
+        user.setPassword(passwordEncoder.encode("123123"));
+        user.setRoles(Lists.newArrayList(role));
+        user.setPictureId(save.getId());
+        user.setUserType(UserTypeEnum.ADMIN.getCode());
+        userDAO.save(user);
     }
 
 }

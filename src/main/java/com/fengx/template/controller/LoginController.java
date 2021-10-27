@@ -1,10 +1,10 @@
 package com.fengx.template.controller;
 
 import com.fengx.template.exception.PatchaException;
-import com.fengx.template.pojo.param.LoginParam;
+import com.fengx.template.pojo.param.sys.LoginParam;
 import com.fengx.template.response.Response;
 import com.fengx.template.service.sys.PatchcaService;
-import com.fengx.template.service.sys.SysUserService;
+import com.fengx.template.service.sys.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -24,7 +24,7 @@ import javax.validation.Valid;
 public class LoginController {
 
     private final @NonNull PatchcaService patchcaService;
-    private final @NonNull SysUserService sysUserService;
+    private final @NonNull UserService userService;
 
     @PostMapping(value = "/login")
     @ApiOperation(value = "登录")
@@ -32,14 +32,14 @@ public class LoginController {
     public Response<?> loginValidate(@Valid @RequestBody LoginParam param) {
         // 验证码验证
         patchcaService.validate(param.getCodeId(), param.getCode());
-        return sysUserService.login(param);
+        return userService.login(param);
     }
 
     @PostMapping(value = "/loginNoCode")
     @ApiOperation(value = "登录无验证码", notes = "发布时关闭访问")
     @ApiImplicitParam(dataTypeClass = LoginParam.class)
     public Response<?> loginNoCode(@Valid @RequestBody LoginParam param) {
-        return sysUserService.login(param);
+        return userService.login(param);
     }
 
     @GetMapping(value = "/patchca")

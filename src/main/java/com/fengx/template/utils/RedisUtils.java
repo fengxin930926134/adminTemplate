@@ -16,12 +16,9 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class RedisUtils {
 
-    // -------------------key--------------------
 
     public final String REDIS_KEY_PERMISSION_LIST = "redis_key_permission_list";         // url权限列表
     public final String REDIS_KEY_FILTER_REJECT_LIST = "redis_key_filter_reject_list";   // 放行url列表
-
-    // -------------------key---------------------
 
     private final int REDIS_KEY_EXPIRATION_TIME = 60 * 60 * 24;                          // 默认过期时间一天 单位秒
     private final @NonNull StringRedisTemplate redisTemplate;

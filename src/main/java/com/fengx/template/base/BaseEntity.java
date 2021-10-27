@@ -12,12 +12,14 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * AuditingEntityListener.class是用于监听实体类添加或者删除操作用作自动生成时间等
+ * MappedSuperclass 标记BASE
+ */
 @Data
-// 标记Base
 @MappedSuperclass
 @AllArgsConstructor
 @NoArgsConstructor
-// 是用于监听实体类添加或者删除操作 用作自动生成时间等
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity implements Serializable {
 

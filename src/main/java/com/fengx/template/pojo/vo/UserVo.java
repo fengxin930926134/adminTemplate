@@ -1,6 +1,6 @@
 package com.fengx.template.pojo.vo;
 
-import com.fengx.template.pojo.entity.SysRole;
+import com.fengx.template.pojo.entity.sys.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -72,5 +72,5 @@ public class UserVo {
      * 角色
      * 用户－角色：多对多的关系．
      */
-    private List<SysRole> roles;
+    private List<Role> roles;
 }

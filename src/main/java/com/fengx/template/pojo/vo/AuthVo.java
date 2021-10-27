@@ -1,6 +1,6 @@
 package com.fengx.template.pojo.vo;
 
-import com.fengx.template.pojo.entity.SysRole;
+import com.fengx.template.pojo.entity.sys.Role;
 import lombok.Data;
 import java.util.List;
 
@@ -39,5 +39,5 @@ public class AuthVo {
      * 角色
      * 权限 - 角色是多对多的关系
      */
-    private List<SysRole> roles;
+    private List<Role> roles;
 }
