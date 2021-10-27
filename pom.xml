@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.fengx</groupId>
-    <artifactId>admin-template</artifactId>
+    <artifactId>template</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>admin-template</name>
+    <name>adminTemplate</name>
     <description>后台管理简易模板</description>
 
     <properties>
