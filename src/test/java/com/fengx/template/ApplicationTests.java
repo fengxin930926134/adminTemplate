@@ -29,15 +29,7 @@ class ApplicationTests {
      */
     @Test
     @Transactional
-    void contextLoads() {
-//        log.info(testDao.findAll(DynamicSpecUtils.bySearchFilter(
-//                SearchFilter.builder()
-//                        .name("userTypeEnum")
-//                        .value("student")
-//                        .whereType(WhereOperator.AND)
-//                        .type(Operator.EQ)
-//                        .build())).toString());
-    }
+    void contextLoads() {}
 
     /**
      * 用作初始化数据
@@ -46,8 +38,8 @@ class ApplicationTests {
     public void dataInit() {
         //不过滤url
         Permission sysFilterReject = new Permission();
-        sysFilterReject.setUrl("/sys/authorizing/*");
-        sysFilterReject.setRemarks("放开登录相关接口");
+        sysFilterReject.setUrl("/sys/authorizing/**");
+        sysFilterReject.setRemarks("登录相关接口");
         sysFilterReject.setStatus(1);
         sysFilterReject.setType(1);
         permissionDAO.save(sysFilterReject);
@@ -112,7 +104,7 @@ class ApplicationTests {
         User user = new User();
         user.setName("风");
         user.setUsername("admin");
-        user.setPassword(passwordEncoder.encode("123123"));
+        user.setPassword(passwordEncoder.encode("930926134"));
         userDAO.save(user);
     }
 
