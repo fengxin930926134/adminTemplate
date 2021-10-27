@@ -6,11 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
+
 import java.util.List;
 
 /**
@@ -40,9 +37,9 @@ public class User extends BaseEntity {
     private String password;
 
     /**
-     * 用户角色权限
+     * 用户角色id
      */
     @Transient
     @JsonIgnore
-    private Collection<GrantedAuthority> authorities;
+    private List<String> roleIds;
 }

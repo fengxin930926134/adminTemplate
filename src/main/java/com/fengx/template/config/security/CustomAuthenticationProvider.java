@@ -2,6 +2,7 @@ package com.fengx.template.config.security;
 
 import com.fengx.template.pojo.entity.sys.User;
 import com.fengx.template.service.PublicService;
+import com.fengx.template.utils.TokenUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -29,7 +30,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         // 认证逻辑
         User user = publicService.authentication(name, passwordEncoder.encode(password));
         // 生成令牌
-        return new UsernamePasswordAuthenticationToken(name, password, user.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(name, password, TokenUtils.getAuthorities(user.getRoleIds()));
     }
 
     @Override

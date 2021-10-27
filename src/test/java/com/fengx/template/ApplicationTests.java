@@ -16,7 +16,9 @@ class ApplicationTests {
     @Autowired
     private UserDAO userDAO;
     @Autowired
-    private RoleDAO roleDao;
+    private RoleDAO roleDAO;
+    @Autowired
+    private UserRoleDAO userRoleDAO;
     @Autowired
     private PermissionRoleDAO permissionRoleDAO;
     @Autowired
@@ -66,12 +68,12 @@ class ApplicationTests {
         Role role = new Role();
         role.setName("超管员");
         role.setRemarks("超管员");
-        Role save = roleDao.saveAndFlush(role);
+        Role save = roleDAO.saveAndFlush(role);
 
         Role role2 = new Role();
         role2.setName("普通用户");
         role2.setRemarks("普通用户");
-        Role save1 = roleDao.saveAndFlush(role2);
+        Role save1 = roleDAO.saveAndFlush(role2);
 
         //初始化权限
         Permission permission1 = new Permission();
@@ -85,6 +87,7 @@ class ApplicationTests {
         permission2.setUrl("/test/admin");
         permission2.setRemarks("测试超管员权限的url");
         permission2.setStatus(1);
+        permission2.setType(2);
         Permission save3 = permissionDAO.saveAndFlush(permission2);
 
         // 关联权限
@@ -92,9 +95,10 @@ class ApplicationTests {
         permissionRole.setRoleId(save.getId());
         permissionRole.setPermissionId(save3.getId());
         permissionRoleDAO.save(permissionRole);
-        permissionRole.setRoleId(save.getId());
-        permissionRole.setPermissionId(save2.getId());
-        permissionRoleDAO.save(permissionRole);
+        PermissionRole permissionRole3 = new PermissionRole();
+        permissionRole3.setRoleId(save.getId());
+        permissionRole3.setPermissionId(save2.getId());
+        permissionRoleDAO.save(permissionRole3);
 
         PermissionRole permissionRole1 = new PermissionRole();
         permissionRole1.setRoleId(save1.getId());
@@ -105,7 +109,12 @@ class ApplicationTests {
         user.setName("风");
         user.setUsername("admin");
         user.setPassword(passwordEncoder.encode("930926134"));
-        userDAO.save(user);
+        User user1 = userDAO.saveAndFlush(user);
+
+        UserRole userRole = new UserRole();
+        userRole.setRoleId(save.getId());
+        userRole.setUserId(user1.getId());
+        userRoleDAO.save(userRole);
     }
 
 }

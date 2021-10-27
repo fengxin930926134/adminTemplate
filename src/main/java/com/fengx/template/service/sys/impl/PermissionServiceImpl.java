@@ -30,8 +30,36 @@ public class PermissionServiceImpl implements PermissionService {
      */
     private static Map<String, Collection<ConfigAttribute>> permissionMap = null;
 
+    /**
+     * url放过拦截的缓存
+     */
+    private static List<String> filterUrlList = null;
 
     @PostConstruct
+    private void init() {
+        initPermissions();
+        initFilterUrl();
+    }
+
+    @Override
+    public Map<String, Collection<ConfigAttribute>> getPermissionMap() {
+        if (!ObjectUtils.checkValue(permissionMap)) {
+            initPermissions();
+        }
+        return permissionMap;
+    }
+
+    @Override
+    public List<String> getFilterUrlList() {
+        if (filterUrlList == null) {
+            initFilterUrl();
+        }
+        return filterUrlList;
+    }
+
+    /**
+     * 初始化权限列表
+     */
     private void initPermissions() {
         log.info("initPermissions");
         permissionMap = new HashMap<>(1);
@@ -41,29 +69,26 @@ public class PermissionServiceImpl implements PermissionService {
         Map<String, List<PermissionRole>> permissionRoleMap = permissionRoleDAO.findAll().stream().collect(Collectors.groupingBy(PermissionRole::getPermissionId));
         for (Permission permission : permissions) {
             List<PermissionRole> permissionRoles = permissionRoleMap.get(permission.getId());
+            Collection<ConfigAttribute> collection = new ArrayList<>();
             if (CollectionUtils.isNotEmpty(permissionRoles)) {
-                Collection<ConfigAttribute> collection = new ArrayList<>();
                 for (PermissionRole r : permissionRoles) {
                     ConfigAttribute cfg = new SecurityConfig("ROLE_" + r.getRoleId());
                     collection.add(cfg);
                 }
-                permissionMap.put(permission.getUrl(), collection);
+            } else {
+                // 设置了需要权限但未赋值给角色 手动赋值一个不存在的角色 如果不赋值角色则权限验证会判断为不需要角色也能访问
+                collection.add(new SecurityConfig("ROLE_-1"));
             }
+            permissionMap.put(permission.getUrl(), collection);
         }
     }
 
-    @Override
-    public Map<String, Collection<ConfigAttribute>> getPermissionMap() {
-        if (ObjectUtils.checkValue(permissionMap)) {
-            initPermissions();
-        }
-        return permissionMap;
-    }
-
-    @Override
-    public List<String> getFilterUrlList() {
-        // 只获取启用的
+    /**
+     * 初始化过滤url列表
+     */
+    private void initFilterUrl() {
+        log.info("initFilterUrl");
         List<Permission> permissions = permissionDAO.findAllByStatusAndType(1, 1);
-        return permissions.stream().map(Permission::getUrl).distinct().collect(Collectors.toList());
+        filterUrlList =  permissions.stream().map(Permission::getUrl).distinct().collect(Collectors.toList());
     }
 }

@@ -2,7 +2,7 @@ package com.fengx.template.service.sys.impl;
 
 import com.fengx.template.exception.PatchaException;
 import com.fengx.template.service.sys.PatchcaService;
-import com.fengx.template.utils.RedisUtils;
+import com.fengx.template.utils.common.RedisUtils;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.patchca.color.ColorFactory;

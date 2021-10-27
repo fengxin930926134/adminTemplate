@@ -25,8 +25,9 @@ public class MD5Utils {
         char[] charArray = password.toCharArray();
         byte[] byteArray = new byte[charArray.length];
 
-        for (int i = 0; i < charArray.length; i++)
+        for (int i = 0; i < charArray.length; i++) {
             byteArray[i] = (byte) charArray[i];
+        }
         byte[] md5Bytes = md5.digest(byteArray);
         StringBuilder hexValue = new StringBuilder();
         for (byte md5Byte : md5Bytes) {

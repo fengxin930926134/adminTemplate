@@ -2,9 +2,9 @@ package com.fengx.template.filter;
 
 import com.fengx.template.exception.TokenException;
 import com.fengx.template.pojo.entity.sys.User;
-import com.fengx.template.utils.JSONUtils;
-import com.fengx.template.utils.RedisUtils;
-import com.fengx.template.utils.RequestHolder;
+import com.fengx.template.utils.common.JSONUtils;
+import com.fengx.template.utils.common.RedisUtils;
+import com.fengx.template.utils.common.RequestHolder;
 import com.fengx.template.utils.TokenUtils;
 import io.jsonwebtoken.Claims;
 import lombok.NonNull;
@@ -55,7 +55,8 @@ public class LoginFilter extends GenericFilterBean {
                 }
                 User sysUser = JSONUtils.json2Object(user, User.class);
                 // 得到权限（角色）
-                Authentication auth = new UsernamePasswordAuthenticationToken(sysUser.getUsername(), sysUser.getPassword(), sysUser.getAuthorities());
+                Authentication auth = new UsernamePasswordAuthenticationToken(sysUser.getUsername(),
+                        sysUser.getPassword(), TokenUtils.getAuthorities(sysUser.getRoleIds()));
                 // 这里还是上面见过的，存放认证信息，如果没有走这一步，下面的doFilter就会提示登录了
                 SecurityContextHolder.getContext().setAuthentication(auth);
                 RequestHolder.add(sysUser);

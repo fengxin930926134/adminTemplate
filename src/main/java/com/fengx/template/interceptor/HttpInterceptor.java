@@ -1,7 +1,7 @@
 package com.fengx.template.interceptor;
 
-import com.fengx.template.utils.JSONUtils;
-import com.fengx.template.utils.RequestHolder;
+import com.fengx.template.utils.common.JSONUtils;
+import com.fengx.template.utils.common.RequestHolder;
 import com.fengx.template.utils.common.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;

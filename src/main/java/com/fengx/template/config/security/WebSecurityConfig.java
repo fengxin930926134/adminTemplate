@@ -4,7 +4,7 @@ import com.fengx.template.config.encode.PasswordEncoderConfig;
 import com.fengx.template.filter.LoginFilter;
 import com.fengx.template.service.PublicService;
 import com.fengx.template.service.sys.PermissionService;
-import com.fengx.template.utils.RedisUtils;
+import com.fengx.template.utils.common.RedisUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

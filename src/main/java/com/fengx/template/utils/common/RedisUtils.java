@@ -1,8 +1,7 @@
-package com.fengx.template.utils;
+package com.fengx.template.utils.common;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import java.util.*;
@@ -16,11 +15,10 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class RedisUtils {
 
-
-    public final String REDIS_KEY_PERMISSION_LIST = "redis_key_permission_list";         // url权限列表
-    public final String REDIS_KEY_FILTER_REJECT_LIST = "redis_key_filter_reject_list";   // 放行url列表
-
-    private final int REDIS_KEY_EXPIRATION_TIME = 60 * 60 * 24;                          // 默认过期时间一天 单位秒
+    /**
+     * 默认过期时间一天 单位秒
+     */
+    private final int REDIS_KEY_EXPIRATION_TIME = 60 * 60 * 24;
     private final @NonNull StringRedisTemplate redisTemplate;
 
     // -------------------key相关操作---------------------

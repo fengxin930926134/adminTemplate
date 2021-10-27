@@ -4,11 +4,16 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * token工具类
@@ -16,10 +21,14 @@ import java.util.Date;
 public class TokenUtils {
 
     public static final String JWT_LOGIN_USERNAME = "jwt_login_username";
-    // 过期时间1天 单位秒
+    /**
+     * 过期时间1天 单位秒
+     */
     public static final int JWT_EXPIRATION_TIME = 60 * 60 * 24;
     public static final String HEADER_STRING = "Authorization";
-    // 密钥随便乱打一通我自己都不知道是啥就完事了
+    /**
+     * 密钥随便乱打一通我自己都不知道是啥就完事了
+     */
     private static final String JWT_BASE64SECURITY = "a1dwd12da4grg1sdw12faw5da";
     private static final String TOKEN_PREFIX = "bearer ";
 
@@ -83,6 +92,23 @@ public class TokenUtils {
         }
         //生成JWT
         return TOKEN_PREFIX.concat(builder.compact());
+    }
+
+    /**
+     * 生成用户权限列表
+     *
+     * @return userRoles
+     */
+    public static Collection<GrantedAuthority> getAuthorities(List<String> roleIds) {
+        if (roleIds == null) {
+            roleIds = new ArrayList<>();
+        }
+        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        // 用户角色 注意：必须"ROLE_"开头
+        for(String roleId : roleIds) {
+            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + roleId));
+        }
+        return grantedAuthorities;
     }
 
 }

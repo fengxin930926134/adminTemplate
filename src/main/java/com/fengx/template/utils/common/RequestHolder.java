@@ -1,4 +1,4 @@
-package com.fengx.template.utils;
+package com.fengx.template.utils.common;
 
 import com.fengx.template.pojo.entity.sys.User;
 

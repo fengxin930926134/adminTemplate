@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.fengx.template.exception.NotLoginException;
 import com.fengx.template.service.sys.PermissionService;
-import com.fengx.template.utils.RequestHolder;
+import com.fengx.template.utils.common.RequestHolder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
